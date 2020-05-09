@@ -18,6 +18,9 @@ const FoldersService = {
       .returning('*')
       .then(rows => {
         return rows[0];
+      })
+      .catch((err) => {
+        console.log(err);
       });
   },
 

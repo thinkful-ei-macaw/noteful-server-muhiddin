@@ -1,6 +1,6 @@
 const NotesService = {
   getAllNotes(knex) {
-    return knex.select('*').from('notes_table')
+    return knex.select('*').from('notes_table');
   },
 
   insertNote(knex, newNote) {

@@ -45,12 +45,12 @@ foldersRouter
   });
 
 foldersRouter
-  .route('/:folder_id/notes')
+  .route('/:folderid/notes')
   .all((req, res, next) => {
-    const { id } = req.params;
+    const { folderid } = req.params;
     FoldersService.getFolderNotes(
       req.app.get('db'),
-      id
+      folderid
     )
       .then(notes => {
         if (!notes) {

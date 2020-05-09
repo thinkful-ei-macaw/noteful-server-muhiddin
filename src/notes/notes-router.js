@@ -26,7 +26,7 @@ notesRouter
   })
   .post(jsonParser, (req, res, next) => {
     const { name, modified, folder_id, content } = req.body;
-    const newNote = { name, folder_id, content };
+    const newNote = { name, folder_id, modified, content };
 
     for (const [key, value] of Object.entries(newNote))
       if (value === null)
@@ -94,7 +94,7 @@ notesRouter
 
     NotesService.updateNote(
       req.app.get('db'),
-      req.params.comment_id,
+      req.params.id,
       noteToUpdate
     )
       .then(numRowsAffected => {

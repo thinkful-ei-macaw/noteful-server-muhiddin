@@ -1,4 +1,4 @@
-INSERT INTO folders_table (name)
+INSERT INTO folders_table (folder_name)
 VALUES
 ('Important'),
 ('Super'),

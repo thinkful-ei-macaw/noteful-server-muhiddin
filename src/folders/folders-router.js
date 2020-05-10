@@ -7,8 +7,8 @@ const foldersRouter = express.Router();
 const jsonParser = express.json();
 
 const serializeFolder = folder => ({
-  id: folder.id,
-  name: xss(folder.name)
+  folder_id: folder.folder_id,
+  folder_name: xss(folder.folder_name)
 });
 
 foldersRouter
@@ -22,12 +22,12 @@ foldersRouter
       .catch(next);
   })
   .post(jsonParser, (req, res, next) => {
-    const { name } = req.body;
-    const newFolder = { name };
+    const { folder_name } = req.body;
+    const newFolder = { folder_name };
 
     if (name === null) {
       return res.status(400).json({
-        error: { message: `Missing '${name}' in request body` }
+        error: { message: `Missing '${folder_name}' in request body` }
       });
     }
 
@@ -38,19 +38,19 @@ foldersRouter
       .then(folder => {
         res
           .status(201)
-          .location(path.posix.join(req.originalUrl, `/${folder.id}`))
+          .location(path.posix.join(req.originalUrl, `/${folder.folder_id}`))
           .json(serializeFolder(folder));
       })
       .catch(next);
   });
 
 foldersRouter
-  .route('/:folderid/notes')
+  .route('/:folder_id/notes')
   .all((req, res, next) => {
-    const { folderid } = req.params;
+    const { folder_id } = req.params;
     FoldersService.getFolderNotes(
       req.app.get('db'),
-      folderid
+      folder_id
     )
       .then(notes => {
         if (!notes) {
@@ -100,14 +100,14 @@ foldersRouter
       .catch(next);
   })
   .patch(jsonParser, (req, res, next) => {
-    const foldername = req.body.foldername;
-    const folderToUpdate = { foldername };
+    const folder_name = req.body.folder_name;
+    const folderToUpdate = { folder_name };
 
     const numberOfValues = Object.values(folderToUpdate).filter(Boolean).length;
     if (numberOfValues === 0)
       return res.status(400).json({
         error: {
-          message: 'Request body must contain either \'fullname\', \'username\', \'password\' or \'nickname\''
+          message: 'Request body must contain \'folder name\''
         }
       });
 

@@ -24,23 +24,23 @@ const FoldersService = {
       });
   },
 
-  getById(knex, id) {
+  getById(knex, folder_id) {
     return knex
       .from('folders_table')
       .select('*')
-      .where('id', id)
+      .where('folder_id', folder_id)
       .first();
   },
 
-  deleteFolder(knex, id) {
+  deleteFolder(knex, folder_id) {
     return knex('folders_table')
-      .where({ id })
+      .where({ folder_id })
       .delete();
   },
 
-  updateFolder(knex, id, newFolderFields) {
+  updateFolder(knex, folder_id, newFolderFields) {
     return knex('folders_table')
-      .where({ id })
+      .where({ folder_id })
       .update(newFolderFields);
   },
 };

@@ -7,8 +7,8 @@ const notesRouter = express.Router();
 const jsonParser = express.json();
 
 const serializeNote = note => ({
-  id: note.id,
-  name: xss(note.name),
+  note_id: note.note_id,
+  note_name: xss(note.note_name),
   modified: note.modified,
   folder_id: note.folder_id,
   content: xss(note.content)
@@ -25,8 +25,8 @@ notesRouter
       .catch(next);
   })
   .post(jsonParser, (req, res, next) => {
-    const { name, modified, folder_id, content } = req.body;
-    const newNote = { content, folder_id, modified, name};
+    const { note_name, modified, folder_id, content } = req.body;
+    const newNote = { content, folder_id, modified, note_name};
     for (const [key, value] of Object.entries(newNote))
       if (value === null)
         return res.status(400).json({
@@ -42,7 +42,7 @@ notesRouter
       .then(note => {
         res
           .status(201)
-          .location(path.posix.join(req.originalUrl, `/${note.id}`))
+          .location(path.posix.join(req.originalUrl, `/${note.note_id}`))
           .json(serializeNote(note));
       })
       .catch(next);
@@ -80,20 +80,20 @@ notesRouter
       .catch(next);
   })
   .patch(jsonParser, (req, res, next) => {
-    const { name, content, modified  } = req.body;
-    const noteToUpdate = { name, content, modified };
+    const { note_name, content, modified  } = req.body;
+    const noteToUpdate = { note_name, content, modified };
 
     const numberOfValues = Object.values(noteToUpdate).filter(Boolean).length;
     if (numberOfValues === 0)
       return res.status(400).json({
         error: {
-          message: 'Request body must contain either \'text\' or \'date_commented\''
+          message: 'Request body must contain either \'note name\', \'content\''
         }
       });
 
     NotesService.updateNote(
       req.app.get('db'),
-      req.params.id,
+      req.params.note_id,
       noteToUpdate
     )
       .then(numRowsAffected => {

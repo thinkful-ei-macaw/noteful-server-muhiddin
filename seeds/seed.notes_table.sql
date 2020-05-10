@@ -1,4 +1,4 @@
-INSERT INTO notes_table (name, modified, folderId, content)
+INSERT INTO notes_table (note_name, modified, folder_id, content)
 VALUES
 (    
        'Dogs',

@@ -13,23 +13,23 @@ const NotesService = {
       });
   },
 
-  getById(knex, id) {
+  getById(knex, note_id) {
     return knex
       .from('notes_table')
       .select('*')
-      .where('id', id)
+      .where('note_id', note_id)
       .first();
   },
 
-  deleteNote(knex, id) {
+  deleteNote(knex, note_id) {
     return knex('notes_table')
-      .where({ id })
+      .where({ note_id })
       .delete();
   },
 
-  updateNote(knex, id, newNoteFields) {
+  updateNote(knex, note_id, newNoteFields) {
     return knex('notes_table')
-      .where({ id })
+      .where({ note_id })
       .update(newNoteFields);
   },
 };

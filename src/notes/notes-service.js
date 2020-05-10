@@ -9,7 +9,7 @@ const NotesService = {
       .into('notes_table')
       .returning('*')
       .then(rows => {
-        return rows[0]
+        return rows[0];
       });
   },
 

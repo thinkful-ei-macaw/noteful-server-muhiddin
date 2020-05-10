@@ -7,7 +7,7 @@ const FoldersService = {
     return db
       .from('notes_table')
       .select('*')
-      .where('folderid', folder_id)
+      .where('folder_id', folder_id)
       .orderBy('modified', 'desc');
   },
 
